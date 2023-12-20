@@ -1,51 +1,61 @@
 import pygame
 import sys
 
-# Khởi tạo Pygame
-pygame.init()
+class YourGameClass:
+    def __init__(self):
+        # Khởi tạo Pygame
+        pygame.init()
 
-# Kích thước màn hình
-screen_width, screen_height = 400, 300
+        # Kích thước màn hình
+        self.screen_width, self.screen_height = 800, 600
 
-# Màu sắc
-white = (255, 255, 255)
-black = (0, 0, 0)
+        # Tạo màn hình
+        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+        pygame.display.set_caption("Xoay Ảnh Quanh Điểm Bất Kỳ")
 
-# Khởi tạo màn hình
-screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption('Tam giác nút')
+        # Tải hình ảnh từ file
+        self.image = pygame.image.load("assets/cars/car001.png")
 
-def draw_triangle(direction):
-    # Xóa màn hình
-    screen.fill(white)
+    def rotate_image_around_point(self, angle, rotate_point):
+        # Tạo một bức tranh (Surface) có kích thước giống với ảnh
+        temp_surface = pygame.Surface(self.image.get_size(), pygame.SRCALPHA)
 
-    # Tọa độ tam giác
-    if direction == 'left':
-        points = [(200, 100), (250, 200), (200, 300)]
-    elif direction == 'right':
-        points = [(200, 100), (150, 200), (200, 300)]
+        # Vẽ ảnh lên bức tranh
+        temp_surface.blit(self.image, (0, 0))
 
-    # Vẽ tam giác
-    pygame.draw.polygon(screen, black, points)
+        # Xoay bức tranh
+        rotated_surface = pygame.transform.rotate(temp_surface, angle)
 
-    # Cập nhật màn hình
-    pygame.display.flip()
+        # Lấy hình chữ nhật bao quanh bức tranh đã xoay
+        rotated_rect = rotated_surface.get_rect(center=rotate_point)
 
-# Vòng lặp chính
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                draw_triangle('left')
-            elif event.key == pygame.K_RIGHT:
-                draw_triangle('right')
+        # Xóa toàn bộ màn hình
+        self.screen.fill((255, 255, 255))
 
-    # Thêm delay để giảm tải CPU
-    pygame.time.delay(10)
+        # Vẽ bức tranh đã xoay lên màn hình
+        self.screen.blit(rotated_surface, rotated_rect.topleft)
 
-# Đóng cửa sổ Pygame khi thoát
-pygame.quit()
-sys.exit()
+        # Vẽ điểm xoay
+        pygame.draw.circle(self.screen, (255, 0, 0), rotate_point, 5)
+
+        # Cập nhật màn hình
+        pygame.display.flip()
+
+    def run(self):
+        # Vòng lặp chính của Pygame
+        angle = 0
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    pygame.quit()
+                    sys.exit()
+            angle += 1
+            # Gọi hàm để xoay ảnh quanh điểm bất kỳ
+            self.rotate_image_around_point(angle, (self.screen_width // 2, self.screen_height // 2))
+            pygame.time.delay(10)
+
+if __name__ == "__main__":
+    game = YourGameClass()
+    game.run()
