@@ -1,61 +1,49 @@
 import pygame
-import sys
+from src.game_objects.map import Map
+from src.game_objects.car import Car
+from config.game_config import *
+import neat
 
-class YourGameClass:
-    def __init__(self):
-        # Khởi tạo Pygame
-        pygame.init()
+class GameManager:
 
-        # Kích thước màn hình
-        self.screen_width, self.screen_height = 800, 600
+    def __init__(self, screen: pygame.Surface, amount: int = 1):
+        self.screen = screen
+        self.screen_size = screen.get_size()
 
-        # Tạo màn hình
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
-        pygame.display.set_caption("Xoay Ảnh Quanh Điểm Bất Kỳ")
+        # Setup the game
+        self.start_pos_dict = {"01": (-3900, -1200),}
 
-        # Tải hình ảnh từ file
-        self.image = pygame.image.load("assets/cars/car001.png")
+        # Create game objects
+        self.maps = []
+        self.cars = []
+        for i in range(0, amount):
+            # create map object
+            map = Map(self.screen) # Using map.loadImage(map_id) to load map, default map01
+            self.maps.append(map)
+            car = Car(self.screen) # Using car.loadImage(car_id) to load car, default car001
+            car.velocity = GAME_SPEED
+            self.cars.append(car)
+        # Data for game handling
 
-    def rotate_image_around_point(self, angle, rotate_point):
-        # Tạo một bức tranh (Surface) có kích thước giống với ảnh
-        temp_surface = pygame.Surface(self.image.get_size(), pygame.SRCALPHA)
+    def update(self, nets):
+        # train
+        for i, map in enumerate(self.maps):
+            output = nets[i].activate(self.cars[i].get_data())
+            choice = output.index(max(output))
+            if choice == 0:
+                self.cars[i].angle += ANGLE_UNIT
+            elif choice == 1:
+                self.cars[i].angle -= ANGLE_UNIT
 
-        # Vẽ ảnh lên bức tranh
-        temp_surface.blit(self.image, (0, 0))
+            # Update map object
+            map.update(self.cars[i])
 
-        # Xoay bức tranh
-        rotated_surface = pygame.transform.rotate(temp_surface, angle)
+            # Update car object
+            self.cars[i].update(map)
+            if not self.cars[i].is_alive:
+                del self.cars[i]
+        
+                return False
+            return True
 
-        # Lấy hình chữ nhật bao quanh bức tranh đã xoay
-        rotated_rect = rotated_surface.get_rect(center=rotate_point)
-
-        # Xóa toàn bộ màn hình
-        self.screen.fill((255, 255, 255))
-
-        # Vẽ bức tranh đã xoay lên màn hình
-        self.screen.blit(rotated_surface, rotated_rect.topleft)
-
-        # Vẽ điểm xoay
-        pygame.draw.circle(self.screen, (255, 0, 0), rotate_point, 5)
-
-        # Cập nhật màn hình
-        pygame.display.flip()
-
-    def run(self):
-        # Vòng lặp chính của Pygame
-        angle = 0
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                    pygame.quit()
-                    sys.exit()
-            angle += 1
-            # Gọi hàm để xoay ảnh quanh điểm bất kỳ
-            self.rotate_image_around_point(angle, (self.screen_width // 2, self.screen_height // 2))
-            pygame.time.delay(10)
-
-if __name__ == "__main__":
-    game = YourGameClass()
-    game.run()
+ 
