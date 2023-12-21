@@ -45,7 +45,7 @@ class VideoShow:
     def stop(self):
         self.stopped = True   
        
-class ThreadVideo:
+class threadVideo:
     def __init__(self):
         source=0
         self.video_getter = VideoGet(source).start()
@@ -54,7 +54,7 @@ class ThreadVideo:
 
     def start(self):
         Thread(target=self.show, args=()).start()
-        return self
+        return self   
 
     def show(self):
         with mp_hands.Hands(
@@ -80,14 +80,13 @@ class ThreadVideo:
 
                 dist = 0
                 height, width, _ = image.shape
-                x1_top_line, y1_top_line = 0, height//2 - 20
-                x2_top_line, y2_top_line = width, height//2 - 20
-                x1_bottom_line, y1_bottom_line = 0, height//2 + 20
-                x2_bottom_line, y2_bottom_line = width, height//2 + 20
+                x1, y1 = 0, height//2
+                x2, y2 = width, height//2
 
-                cv2.line(image, (x1_top_line, y1_top_line), (x2_top_line, y2_top_line), (0, 0, 255), 2)
-                cv2.line(image, (x1_bottom_line, y1_bottom_line), (x2_bottom_line, y2_bottom_line), (0, 0, 255), 2)
+                cv2.line(image, (x1, y1), (x2, y2), (0, 0, 255), 2)
 
+                first_hand_index = None
+                first_hand_label = None
                 if results.multi_hand_landmarks and len(results.multi_hand_landmarks) == 2:
                     for idx, hand in enumerate(results.multi_hand_landmarks):
                         mp_drawing.draw_landmarks(
@@ -98,30 +97,59 @@ class ThreadVideo:
                             mp_drawing_styles.get_default_hand_connections_style())
                         lm_hand = results.multi_handedness[idx].classification[0].label
                         
-                        # hand points
-                        hand_landmarks_1 = results.multi_hand_landmarks[0].landmark
-                        hand_landmarks_2 = results.multi_hand_landmarks[1].landmark
-                        for id, lm in enumerate(hand.landmark):
-                            h, w, _ = image.shape
-                            x, y = int(lm.x * w), int(lm.y * h)
-                            hand_1_point1 = (int(hand_landmarks_1[8].x * w), int(hand_landmarks_1[8].y * h))
-                            hand_2_point1 = (int(hand_landmarks_2[8].x * w), int(hand_landmarks_2[8].y * h))
-                            if id == 8:
-                                cv2.circle(image, (x, y), 10, (0, 255, 0), cv2.FILLED)
-                                cv2.line(image, hand_1_point1, hand_2_point1, (0, 255, 0), 2)
+                        if first_hand_index is None:
+                            first_hand_index = idx
+                            first_hand_label = lm_hand
+                        
+                        if first_hand_label == "Left":
+                            hand_landmarks_1 = results.multi_hand_landmarks[1].landmark
+                            hand_landmarks_2 = results.multi_hand_landmarks[0].landmark
+                            for id, lm in enumerate(hand.landmark):
+                                h, w, _ = image.shape
+                                x, y = int(lm.x * w), int(lm.y * h)
+                                hand_1_point1 = (int(hand_landmarks_1[8].x * w), int(hand_landmarks_1[8].y * h))
+                                hand_2_point1 = (int(hand_landmarks_2[8].x * w), int(hand_landmarks_2[8].y * h))
+                                if id == 8:
+                                    cv2.circle(image, (x, y), 10, (0, 255, 0), cv2.FILLED)
+                                    cv2.line(image, hand_1_point1, hand_2_point1, (0, 255, 0), 2)
 
-                        if hand_landmarks_1[8].y > 0.45 and hand_landmarks_1[8].y < 0.53 and hand_landmarks_2[8].y > 0.45 and hand_landmarks_2[8].y < 0.53:
-                            # up
-                            dist = 0
-                        elif hand_landmarks_1[8].y < 0.45 and hand_landmarks_2[8].y > 0.53:
-                            # right
-                            dist = 1
-                        elif hand_landmarks_2[8].y < 0.45 and hand_landmarks_1[8].y > 0.53:
-                            # left
-                            dist = 2
-                        else:
-                            # stop
-                            dist = 3
+                            if hand_landmarks_1[8].y < 0.5 and hand_landmarks_2[8].y < 0.5 or hand_landmarks_2[8].y > 0.5 and hand_landmarks_1[8].y > 0.5:
+                                # up
+                                dist = 0
+                            elif hand_landmarks_1[8].y > 0.5 and hand_landmarks_2[8].y < 0.5:
+                                # right
+                                dist = 1
+                            elif hand_landmarks_1[8].y < 0.5 and hand_landmarks_2[8].y > 0.5:
+                                # left
+                                dist = 2
+                            else:
+                                # stop
+                                dist = 3
+                        
+                        elif first_hand_label == "Right":
+                            hand_landmarks_1 = results.multi_hand_landmarks[0].landmark
+                            hand_landmarks_2 = results.multi_hand_landmarks[1].landmark
+                            for id, lm in enumerate(hand.landmark):
+                                h, w, _ = image.shape
+                                x, y = int(lm.x * w), int(lm.y * h)
+                                hand_1_point1 = (int(hand_landmarks_1[8].x * w), int(hand_landmarks_1[8].y * h))
+                                hand_2_point1 = (int(hand_landmarks_2[8].x * w), int(hand_landmarks_2[8].y * h))
+                                if id == 8:
+                                    cv2.circle(image, (x, y), 10, (0, 255, 0), cv2.FILLED)
+                                    cv2.line(image, hand_1_point1, hand_2_point1, (0, 255, 0), 2)
+
+                            if hand_landmarks_1[8].y < 0.5 and hand_landmarks_2[8].y < 0.5 or hand_landmarks_2[8].y > 0.5 and hand_landmarks_1[8].y > 0.5:
+                                # up
+                                dist = 0
+                            elif hand_landmarks_1[8].y > 0.5 and hand_landmarks_2[8].y < 0.5:
+                                # right
+                                dist = 1
+                            elif hand_landmarks_1[8].y < 0.5 and hand_landmarks_2[8].y > 0.5:
+                                # left
+                                dist = 2
+                            else:
+                                # stop
+                                dist = 3
 
                 else:
                     # stop
@@ -131,5 +159,5 @@ class ThreadVideo:
                 self.dist = dist
 
 if __name__ == '__main__':   
-    ThreadVideo().start()
+    threadVideo().start()
     
