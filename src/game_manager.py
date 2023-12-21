@@ -3,6 +3,7 @@ import sys
 from src.game_objects.map import Map
 from src.game_objects.car import Car
 from config.game_config import *
+from src.utils.hand_controller import ThreadVideo
 import neat
 import pickle
 
@@ -21,11 +22,13 @@ class GameManager:
         self.opponents = []
         self.num_alive = 0
 
-    def init_game(self):     
+    def init_game(self):
         # Create game objects for player
         self.map = Map(self.screen) # Using map.loadImage(map_id) to load map, default map01
         self.car = Car(self.screen) # Using car.loadImage(car_id) to load car, default car001
         self.car.loadImage("102")
+        self.driver_frame = ThreadVideo()
+        self.driver_frame.start()
         # self.car.velocity = GAME_SPEED
         # create game objects for other players
         map = Map(self.screen)
@@ -83,11 +86,18 @@ class GameManager:
                 opponent["car"].rect.topleft[0] - opponent["map"].start_pos[0] + self.map.start_pos[0],
                 opponent["car"].rect.topleft[1] - opponent["map"].start_pos[1] + self.map.start_pos[1]
             ))
-            genome.fitness = self.car.distance
+            genome.fitness = opponent["car"].distance
 
         # Update car object
-        self.car.update(self.map)
-        self.car.draw()
+        if self.car.is_alive:
+            if self.driver_frame.dist == 2:
+                self.car.angle -= ANGLE_UNIT
+            elif self.driver_frame.dist == 1:
+                self.car.angle += ANGLE_UNIT
+            elif self.driver_frame.dist == 0:
+                self.car.velocity = GAME_SPEED
+            self.car.update(self.map)
+            self.car.draw()
 
         # check the existence of car
         for opponent in self.opponents:
@@ -100,6 +110,7 @@ class GameManager:
                 # by increasing fitness of genome
                 genome.fitness = (100000 - genome.fitness)
         if not self.car.is_alive:
+            self.num_alive -= 1
             if self.car.is_finished:
                 pass
             # del self.car

@@ -45,7 +45,7 @@ class VideoShow:
     def stop(self):
         self.stopped = True   
        
-class threadVideo:
+class ThreadVideo:
     def __init__(self):
         source=0
         self.video_getter = VideoGet(source).start()
@@ -54,7 +54,7 @@ class threadVideo:
 
     def start(self):
         Thread(target=self.show, args=()).start()
-        return self   
+        return self
 
     def show(self):
         with mp_hands.Hands(
@@ -80,10 +80,10 @@ class threadVideo:
 
                 dist = 0
                 height, width, _ = image.shape
-                x1_top_line, y1_top_line = 0, height//2 - 50
-                x2_top_line, y2_top_line = width, height//2 - 50
-                x1_bottom_line, y1_bottom_line = 0, height//2 + 50
-                x2_bottom_line, y2_bottom_line = width, height//2 + 50
+                x1_top_line, y1_top_line = 0, height//2 - 20
+                x2_top_line, y2_top_line = width, height//2 - 20
+                x1_bottom_line, y1_bottom_line = 0, height//2 + 20
+                x2_bottom_line, y2_bottom_line = width, height//2 + 20
 
                 cv2.line(image, (x1_top_line, y1_top_line), (x2_top_line, y2_top_line), (0, 0, 255), 2)
                 cv2.line(image, (x1_bottom_line, y1_bottom_line), (x2_bottom_line, y2_bottom_line), (0, 0, 255), 2)
@@ -110,13 +110,13 @@ class threadVideo:
                                 cv2.circle(image, (x, y), 10, (0, 255, 0), cv2.FILLED)
                                 cv2.line(image, hand_1_point1, hand_2_point1, (0, 255, 0), 2)
 
-                        if hand_landmarks_1[8].y > 0.4 and hand_landmarks_1[8].y < 0.6 and hand_landmarks_2[8].y > 0.4 and hand_landmarks_2[8].y < 0.6:
+                        if hand_landmarks_1[8].y > 0.45 and hand_landmarks_1[8].y < 0.53 and hand_landmarks_2[8].y > 0.45 and hand_landmarks_2[8].y < 0.53:
                             # up
                             dist = 0
-                        elif hand_landmarks_1[8].y < 0.4 and hand_landmarks_2[8].y > 0.6:
+                        elif hand_landmarks_1[8].y < 0.45 and hand_landmarks_2[8].y > 0.53:
                             # right
                             dist = 1
-                        elif hand_landmarks_2[8].y < 0.4 and hand_landmarks_1[8].y > 0.6:
+                        elif hand_landmarks_2[8].y < 0.45 and hand_landmarks_1[8].y > 0.53:
                             # left
                             dist = 2
                         else:
@@ -131,5 +131,5 @@ class threadVideo:
                 self.dist = dist
 
 if __name__ == '__main__':   
-    threadVideo().start()
+    ThreadVideo().start()
     
