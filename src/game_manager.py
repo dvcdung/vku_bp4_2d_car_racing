@@ -14,7 +14,7 @@ class GameManager:
 
         # Setup the game
         self.start_pos_dict = {"01": (-3900, -1200),}
-        self.mod = 0        # 0: practice with AI, 1: multiplayer
+        self.mode = 0        # 0: practice with AI, 1: multiplayer
         self.map_id = "01"
         self.level = 0      # 0: easy, 1: hard
         self.is_trainning = False

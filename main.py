@@ -8,7 +8,7 @@ pygame.display.set_caption("2D CAR RACING")
 
 # setup game
 game_manager = GameManager(screen)
-game_manager.mod = 0
+game_manager.mode = 0
 game_manager.map_id = "01"
 game_manager.level = 0
 game_manager.is_trainning = False
