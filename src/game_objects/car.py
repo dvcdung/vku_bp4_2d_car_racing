@@ -33,11 +33,14 @@ class Car:
             self.distance += self.velocity
             # handle collision
             self.handle_collision(map)
-            # draw to screen
-            self.draw_radars(map)
-            self.screen.blit(image_rotated, self.rect.topleft)
+            # draw to screens
+            self.scan_radars(map)
         else:
             self.set_default()
+
+    def draw(self, top_left=None):
+        image_rotated, rect = imgHander.rotate(self.image, self.angle - 90, self.center_pos)
+        self.screen.blit(image_rotated, self.rect.topleft if not top_left else top_left)
 
     def bound(self):
         alpha = self.angle*np.pi/180
@@ -52,8 +55,8 @@ class Car:
         self.id = car_id
         self.image = imgHander.load(f"{self.folder_path}car{self.id}.png", self.size)
 
-    # draw radars
-    def draw_radars(self, map):
+    # scan radars
+    def scan_radars(self, map):
         self.radars = []
         for degree in range(-90, 91, 45):
             degree += self.angle
@@ -68,7 +71,10 @@ class Car:
             distance = int(np.sqrt((radar_pos[0] - self.center_pos[0])**2 + (radar_pos[1] - self.center_pos[1])**2))
             # add radar to self.radars
             self.radars.append([radar_pos, distance])
-            # draw radar
+    
+    def draw_radars(self):
+        # draw radar
+        for radar_pos, distance in self.radars:
             pygame.draw.line(self.screen, J_RED, self.center_pos, radar_pos, 2)
             pygame.draw.circle(self.screen, J_RED, radar_pos, 3)
   

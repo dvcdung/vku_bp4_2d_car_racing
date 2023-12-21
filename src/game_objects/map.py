@@ -21,7 +21,7 @@ class Map:
         # update the map
         self.move(car)
 
-        # draw to screen
+    def draw(self):
         self.screen.blit(self.image, self.start_pos)
 
     def pos_in_image(self, pos):

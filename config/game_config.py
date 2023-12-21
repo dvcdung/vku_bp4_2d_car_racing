@@ -2,7 +2,7 @@
 SCREEN_SIZE = (1200, 700)
 
 # game constants
-GAME_SPEED = 15
+GAME_SPEED = 10
 ANGLE_UNIT = 3
 
 

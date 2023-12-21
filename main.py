@@ -1,7 +1,6 @@
 import pygame
 from config.game_config import *
 from src.game_manager import GameManager
-import neat
 
 # Create a window
 screen = pygame.display.set_mode(SCREEN_SIZE)
