@@ -2,13 +2,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import src.components.res_rc as res_rc
 
 class Ui_frameMapPlayer(object):
-    def openWindow(self):
-        from main import Ui_frame
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_frame()
-        self.ui.setupUi(self.window)
-        self.window.show()
-    
     def setupUi(self, frameMapPlayer):
         frameMapPlayer.setObjectName("frameMapPlayer")
         frameMapPlayer.resize(1200, 700)
@@ -37,7 +30,7 @@ class Ui_frameMapPlayer(object):
         self.label.setPixmap(QtGui.QPixmap(":/images/home_background.png"))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
-        self.backBtn = QtWidgets.QPushButton(self.widget, clicked = lambda: self.openWindow())
+        self.backBtn = QtWidgets.QPushButton(self.widget)
         self.backBtn.clicked.connect(frameMapPlayer.close)
         self.backBtn.setGeometry(QtCore.QRect(20, 10, 60, 60))
         self.backBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))

@@ -2,13 +2,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import src.components.res_rc as res_rc
 
 class Ui_frameMapAI(object):
-    def openWindow(self):
-        from main import Ui_frame
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_frame()
-        self.ui.setupUi(self.window)
-        self.window.show()
-
     def setupUi(self, frameMapAI):
         frameMapAI.setObjectName("frameMapAI")
         frameMapAI.resize(1200, 700)
@@ -67,7 +60,7 @@ class Ui_frameMapAI(object):
         self.label.setPixmap(QtGui.QPixmap(":/images/back_ground.png"))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
-        self.backBtn = QtWidgets.QPushButton(self.widget, clicked = lambda: self.openWindow())
+        self.backBtn = QtWidgets.QPushButton(self.widget)
         self.backBtn.clicked.connect(frameMapAI.close)
         self.backBtn.setGeometry(QtCore.QRect(20, 10, 60, 60))
         self.backBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -145,10 +138,7 @@ class Ui_frameMapAI(object):
 
         self.retranslateUi(frameMapAI)
         QtCore.QMetaObject.connectSlotsByName(frameMapAI)
-
-    def on_button_choose_level(self, value):
-        self.value = value
-
+        
     def retranslateUi(self, frameMapAI):
         _translate = QtCore.QCoreApplication.translate
         frameMapAI.setWindowTitle(_translate("frameMapAI", "MainWindow"))

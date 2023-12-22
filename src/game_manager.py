@@ -22,18 +22,20 @@ class GameManager:
         self.car_id = "001"
         self.level = 0      # 0: easy, 1: hard
         self.is_trainning = False
+        self.is_playing = True
         self.num_alive = 0
         self.socket = None
 
     def start_game(self):
+        self.is_playing = True
         clock = pygame.time.Clock()
         # init game
         self.winner = None
         if self.mode == 0:
             if self.level == 0:
-                self.genome_path = "config/best_genome_50.pkl"  
+                self.genome_path = "config/best_genome_10.pkl"  
             else: 
-                self.genome_path = "config/best_genome_10.pkl"
+                self.genome_path = "config/best_genome_50.pkl"
             self.init_bot()
             self.num_alive = 2
 
@@ -59,8 +61,7 @@ class GameManager:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.driver_frame.video_shower.stop()
-                    pygame.quit()
-                    sys.exit(0)
+                    break
                         
             # handle event
             self.car.handle_events()
@@ -92,6 +93,10 @@ class GameManager:
         if not self.is_trainning:
             print(f"The winner is: {self.winner}")
             self.driver_frame.video_shower.stop()
+            self.is_playing = False
+            pygame.time.delay(2000)
+            pygame.quit()
+        
 
     def init_bot(self):
         # create game objects for other players

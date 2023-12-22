@@ -2,19 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from src.components.play_ai import Ui_frameMapAI
 from src.components.play_player import Ui_frameMapPlayer
 
-class Ui_frame(object):
-    def openWindow_AI(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_frameMapAI()
-        self.ui.setupUi(self.window)
-        self.window.show()
-    
-    def openWindow_Human(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_frameMapPlayer()
-        self.ui.setupUi(self.window)
-        self.window.show()
-
+class Home_ui(object):
     def setupUi(self, frame):
         frame.setObjectName("frame")
         frame.resize(1200, 700)
@@ -176,32 +164,6 @@ class Ui_frame(object):
         self.retranslateUi(frame)
         QtCore.QMetaObject.connectSlotsByName(frame)
 
-        # choose car
-        self.nextBtn.clicked.connect(self.show_red_car)
-        self.preBtn.clicked.connect(self.show_yellow_car)
-
-        # choose mode
-        self.playWithHuman.clicked.connect(lambda: self.on_button_choose_mode(0))
-        self.playWithAI.clicked.connect(lambda: self.on_button_choose_mode(1))
-        self.playGame.clicked.connect(self.show_confirmation)
-        self.playGame.clicked.connect(frame.close)
-
-    def on_button_choose_mode(self, value):
-        self.value = value
-
-    def show_confirmation(self):
-        if hasattr(self, 'value'):
-            if self.value == 0:
-                self.openWindow_Human()
-            elif self.value == 1:
-                self.openWindow_AI()
-
-    def show_red_car(self):
-        self.car.setPixmap(QtGui.QPixmap(":/images/car101.png"))
-
-    def show_yellow_car(self):
-        self.car.setPixmap(QtGui.QPixmap(":/images/car102.png"))
-
     def retranslateUi(self, frame):
         _translate = QtCore.QCoreApplication.translate
         frame.setWindowTitle(_translate("frame", "Racing Game"))
@@ -209,12 +171,3 @@ class Ui_frame(object):
         self.playWithHuman.setText(_translate("frame", "MULTIPLAYER"))
         self.playWithAI.setText(_translate("frame", "AI"))
         self.playGame.setText(_translate("frame", "PLAY GAME"))
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    frame = QtWidgets.QMainWindow()
-    ui = Ui_frame()
-    ui.setupUi(frame)
-    frame.show()
-    sys.exit(app.exec_())
