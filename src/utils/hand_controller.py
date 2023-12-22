@@ -52,7 +52,7 @@ class VideoShow:
     def stop(self):
         self.stopped = True   
        
-class ThreadVideo:
+class threadVideo:
     def __init__(self):
         source=0
         self.video_getter = VideoGet(source).start()
@@ -120,7 +120,8 @@ class ThreadVideo:
                                     cv2.circle(image, (x, y), 10, (0, 255, 0), cv2.FILLED)
                                     cv2.line(image, hand_1_point1, hand_2_point1, (0, 255, 0), 2)
 
-                            if hand_landmarks_1[8].y < 0.5 and hand_landmarks_2[8].y < 0.5:
+
+                            if hand_landmarks_1[8].y < 0.5 and hand_landmarks_2[8].y < 0.5 or hand_landmarks_2[8].y > 0.5 and hand_landmarks_1[8].y > 0.5:
                                 # up
                                 dist = 0
                             elif hand_landmarks_1[8].y > 0.5 and hand_landmarks_2[8].y < 0.5:
@@ -145,7 +146,7 @@ class ThreadVideo:
                                     cv2.circle(image, (x, y), 10, (0, 255, 0), cv2.FILLED)
                                     cv2.line(image, hand_1_point1, hand_2_point1, (0, 255, 0), 2)
 
-                            if hand_landmarks_1[8].y < 0.5 and hand_landmarks_2[8].y < 0.5:
+                            if hand_landmarks_1[8].y < 0.5 and hand_landmarks_2[8].y < 0.5 or hand_landmarks_2[8].y > 0.5 and hand_landmarks_1[8].y > 0.5:
                                 # up
                                 dist = 0
                             elif hand_landmarks_1[8].y > 0.5 and hand_landmarks_2[8].y < 0.5:
@@ -167,4 +168,3 @@ class ThreadVideo:
 
 # if __name__ == '__main__':   
 #     threadVideo().start()
-    
