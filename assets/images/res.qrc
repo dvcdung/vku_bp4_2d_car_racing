@@ -1,0 +1,23 @@
+<RCC>
+  <qresource prefix="images">
+    <file>register.png</file>
+    <file>account.png</file>
+    <file>edit.png</file>
+    <file>enter.png</file>
+    <file>padlock.png</file>
+    <file>user.png</file>
+    <file>user_1.png</file>
+    <file>map01.png</file>
+    <file>back_to.png</file>
+    <file>back.png</file>
+    <file>back_ground.png</file>
+    <file>car101.png</file>
+    <file>car102.png</file>
+    <file>home_background.png</file>
+    <file>left-arrow.png</file>
+    <file>next.png</file>
+    <file>reject.png</file>
+    <file>right-arrow.png</file>
+    <file>settings.png</file>
+  </qresource>
+</RCC>
