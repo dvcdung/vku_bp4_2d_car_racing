@@ -27,18 +27,22 @@ def run_simulation(genomes, config):
         genome.fitness = 0
 
         game_manager = GameManager(screen)
-        while (True):
+        game_manager.is_trainning = True
+        game_manager.init_bot()
+        game_manager.num_alive = 20
+
+        while (game_manager.num_alive > 0):
+            game_manager.num_alive = 0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit(0)
             
-            if not game_manager.update(genome, config):
-                break
+            game_manager.update_bot(genome, config)
 
             pygame.display.flip()
             clock.tick(50)
 
-best_genome = population.run(run_simulation, 100)
+best_genome = population.run(run_simulation, 10)
 # Save best genome to file
-with open("config/best_genome_100.pkl", "wb") as file:
+with open("config/best_genome_10.pkl", "wb") as file:
     pickle.dump(best_genome, file)

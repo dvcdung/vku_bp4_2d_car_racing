@@ -10,7 +10,7 @@ class Car:
         # car properties
         self.id = None
         self.image = None
-        self.size = (60, 120)
+        self.size = CAR_SIZE
         self.is_alive = True
         self.is_finished = False
         # location properties
@@ -26,7 +26,7 @@ class Car:
 
     # for game update
     def update(self, map):
-        if self.is_alive:
+        if self.is_alive: 
             # car update
             image_rotated, rect = imgHander.rotate(self.image, self.angle - 90, self.center_pos)
             self.rect = rect
@@ -36,7 +36,7 @@ class Car:
             # draw to screens
             self.scan_radars(map)
         else:
-            self.set_default()
+            self.set_stop()
 
     def draw(self, top_left=None):
         image_rotated, rect = imgHander.rotate(self.image, self.angle - 90, self.center_pos)
@@ -107,10 +107,6 @@ class Car:
                     # print("Your car is dead!")
                     self.is_alive = False
 
-    # set car default 
-    def set_default(self):
-        self.angle = 90
-        self.rect = None
+    # set car stop 
+    def set_stop(self):
         self.velocity = 0
-        self.loadImage(car_id=self.id)
-        self.radars = []

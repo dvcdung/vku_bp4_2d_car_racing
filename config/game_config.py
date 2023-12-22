@@ -2,8 +2,9 @@
 SCREEN_SIZE = (1200, 700)
 
 # game constants
-GAME_SPEED = 5
+GAME_SPEED = 15
 ANGLE_UNIT = 3
+CAR_SIZE = (60, 120)
 
 
 # colors

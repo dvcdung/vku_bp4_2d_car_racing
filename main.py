@@ -1,6 +1,7 @@
 import pygame
 from config.game_config import *
 from src.game_manager import GameManager
+from src.networks.app_network import Net
 
 # Create a window
 screen = pygame.display.set_mode(SCREEN_SIZE)
