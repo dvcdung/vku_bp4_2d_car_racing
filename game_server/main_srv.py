@@ -54,7 +54,7 @@ def handle_client(client_socket: socket.socket):
                         print(matches[key_match])
                         client_socket.send(f"OK:{len(matches[key_match])}".encode())
                 elif id == "0013": # Bat dau tran dau
-
+                    pass
 
                     
     except ConnectionResetError:
