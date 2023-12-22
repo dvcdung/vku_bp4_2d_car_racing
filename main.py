@@ -81,7 +81,7 @@ class FrameMapAI(QtWidgets.QMainWindow):
         self.home.show()
 
     def startGame(self):
-        if not game_manager.is_playing():
+        if not game_manager.is_playing:
             game_manager.start_game()
 
 class FrameMapPlayer(QtWidgets.QMainWindow):
@@ -112,8 +112,6 @@ if __name__ == "__main__":
 
     home.show()
     sys.exit(app.exec_())
-
-
 
 # net = Net()
 # net.connect_to_server()

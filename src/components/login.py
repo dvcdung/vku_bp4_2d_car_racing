@@ -5,7 +5,7 @@ from game_server.database import DB
 db = DB()
 user_data = {}
 
-class Ui_MainWindow(object):
+class Ui_Login(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(600, 650)

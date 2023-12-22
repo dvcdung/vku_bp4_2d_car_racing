@@ -15,14 +15,14 @@ class GameManager:
         self.screen_size = screen.get_size()
 
         # Setup the game
-        self.current_player = {"user_id": 1, "username": "dvc"} # test
+        self.current_player = {"user_id": 0, "username": "player"} # test
         self.start_pos_dict = {"01": (-3900, -1200),}
         self.mode = 0        # 0: practice with AI, 1: multiplayer
         self.map_id = "01"
         self.car_id = "001"
         self.level = 0      # 0: easy, 1: hard
         self.is_trainning = False
-        self.is_playing = True
+        self.is_playing = False
         self.num_alive = 0
         self.socket = None
 
@@ -61,6 +61,7 @@ class GameManager:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.driver_frame.video_shower.stop()
+                    self.driver_frame.video_getter.stop()
                     break
                         
             # handle event
@@ -135,7 +136,8 @@ class GameManager:
         if self.bot["car"].is_alive:
             self.num_alive += 1
         elif self.bot["car"].is_finished:
-            if not self.winner: self.winner = self.bot["name"]
+            if not self.is_trainning:
+                if not self.winner: self.winner = self.bot["name"]
             # # for hard mode
             # # this line give priority to shorter distances
             # # by increasing fitness of genome
