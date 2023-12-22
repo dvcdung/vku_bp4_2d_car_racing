@@ -52,7 +52,7 @@ class VideoShow:
     def stop(self):
         self.stopped = True   
        
-class threadVideo:
+class ThreadVideo:
     def __init__(self):
         source=0
         self.video_getter = VideoGet(source).start()
