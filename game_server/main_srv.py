@@ -46,11 +46,15 @@ def handle_client(client_socket: socket.socket):
                     print(onlineUsers)
                 elif id == "0010": # Tạo trận đấu
                     username = data
-                    matches[username] = [username, ]
+                    matches[username] = []
                 elif id == "0011": # Tham gia trận đấu
                     key_match, username = data.split("|")
-                    matches[key_match].append(username)
-                    print(matches[key_match])
+                    while(len(matches[key_match]) < 2):
+                        matches[key_match].append(username)
+                        print(matches[key_match])
+                        client_socket.send(f"OK:{len(matches[key_match])}".encode())
+                elif id == "0013": # Bat dau tran dau
+
 
                     
     except ConnectionResetError:

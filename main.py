@@ -14,12 +14,17 @@ game_manager.map_id = "01"
 game_manager.level = 0
 game_manager.is_trainning = False
 
-# net = Net()
-# net.connect_to_server()
+net = Net()
+net.connect_to_server()
 
-# net.send_to_server("0010", "dvc")
-# while(True):
-#     amount = net.receive_from_server
+net.send_to_server("0010", "dvc")
+while(True):
+    amount = net.receive_from_server()
+    if amount == 2:
+        break
+net.send_to_server()
+
+
 # net.send_to_server("0011", "dvc|hello")
 
 # Run the game
