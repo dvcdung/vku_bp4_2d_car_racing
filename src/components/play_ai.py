@@ -1,23 +1,47 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import res_rc
+import src.components.res_rc as res_rc
 
-class Ui_frameMapPlayer(object):
+class Ui_frameMapAI(object):
     def openWindow(self):
         from main import Ui_frame
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_frame()
         self.ui.setupUi(self.window)
         self.window.show()
-    
-    def setupUi(self, frameMapPlayer):
-        frameMapPlayer.setObjectName("frameMapPlayer")
-        frameMapPlayer.resize(1200, 700)
-        self.centralwidget = QtWidgets.QWidget(frameMapPlayer)
+
+    def setupUi(self, frameMapAI):
+        frameMapAI.setObjectName("frameMapAI")
+        frameMapAI.resize(1200, 700)
+        self.centralwidget = QtWidgets.QWidget(frameMapAI)
         self.centralwidget.setObjectName("centralwidget")
         self.widget = QtWidgets.QWidget(self.centralwidget)
         self.widget.setGeometry(QtCore.QRect(0, 0, 1200, 700))
-        self.widget.setStyleSheet("QPushButton#backBtn, #nextBtn, #preBtn, #backBtn {\n"
+        self.widget.setStyleSheet("QPushButton#backBtn, #nextBtn, #preBtn {\n"
 "    background-color: rgba(0, 0, 0, 0);\n"
+"}\n"
+"QPushButton#easyMode {\n"
+"    background-color: #545454;\n"
+"    border: none;\n"
+"    border-radius: 12px;\n"
+"      color: white;\n"
+"    text-align: center;\n"
+"    padding-bottom: 5px;\n"
+"}\n"
+"QPushButton#mediumMode {\n"
+"    background-color: #545454;\n"
+"    border: none;\n"
+"    border-radius: 12px;\n"
+"      color: white;\n"
+"    text-align: center;\n"
+"    padding-bottom: 5px;\n"
+"}\n"
+"QPushButton#hardMode {\n"
+"    background-color: #545454;\n"
+"    border: none;\n"
+"    border-radius: 12px;\n"
+"      color: white;\n"
+"    text-align: center;\n"
+"    padding-bottom: 5px;\n"
 "}\n"
 "QPushButton#startBtn {\n"
 "    background-color: #d45656;\n"
@@ -27,18 +51,24 @@ class Ui_frameMapPlayer(object):
 "    text-align: center;\n"
 "    padding-bottom: 5px;\n"
 "}\n"
-"QPushButton#loginBtn {\n"
-"    background-color: rgba(0, 0, 0, 0);\n"
+"QPushButton#startBtn:hover {\n"
+"    background-color: rgb(214, 48, 49);\n"
+"}\n"
+"QPushButton#easyMode:hover {\n"
+"    background-color: rgb(99, 110, 114);\n"
+"}\n"
+"QPushButton#hardMode:hover {\n"
+"    background-color: rgb(99, 110, 114);\n"
 "}")
         self.widget.setObjectName("widget")
         self.label = QtWidgets.QLabel(self.widget)
         self.label.setGeometry(QtCore.QRect(0, 0, 1200, 700))
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap(":/images/home_background.png"))
+        self.label.setPixmap(QtGui.QPixmap(":/images/back_ground.png"))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
         self.backBtn = QtWidgets.QPushButton(self.widget, clicked = lambda: self.openWindow())
-        self.backBtn.clicked.connect(frameMapPlayer.close)
+        self.backBtn.clicked.connect(frameMapAI.close)
         self.backBtn.setGeometry(QtCore.QRect(20, 10, 60, 60))
         self.backBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.backBtn.setText("")
@@ -81,8 +111,28 @@ class Ui_frameMapPlayer(object):
         self.nextBtn.setIcon(icon2)
         self.nextBtn.setIconSize(QtCore.QSize(50, 50))
         self.nextBtn.setObjectName("nextBtn")
+        self.easyMode = QtWidgets.QPushButton(self.widget)
+        self.easyMode.setGeometry(QtCore.QRect(320, 460, 261, 61))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.easyMode.setFont(font)
+        self.easyMode.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.easyMode.setObjectName("easyMode")
+        self.hardMode = QtWidgets.QPushButton(self.widget)
+        self.hardMode.setGeometry(QtCore.QRect(630, 460, 261, 61))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.hardMode.setFont(font)
+        self.hardMode.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.hardMode.setObjectName("hardMode")
         self.startBtn = QtWidgets.QPushButton(self.widget)
-        self.startBtn.setGeometry(QtCore.QRect(450, 510, 331, 81))
+        self.startBtn.setGeometry(QtCore.QRect(460, 560, 301, 71))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(16)
@@ -91,30 +141,27 @@ class Ui_frameMapPlayer(object):
         self.startBtn.setFont(font)
         self.startBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.startBtn.setObjectName("startBtn")
-        self.loginBtn = QtWidgets.QPushButton(self.widget)
-        self.loginBtn.setGeometry(QtCore.QRect(1130, 10, 60, 60))
-        self.loginBtn.setText("")
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/images/enter.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.loginBtn.setIcon(icon3)
-        self.loginBtn.setIconSize(QtCore.QSize(60, 60))
-        self.loginBtn.setObjectName("loginBtn")
-        frameMapPlayer.setCentralWidget(self.centralwidget)
+        frameMapAI.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(frameMapPlayer)
-        QtCore.QMetaObject.connectSlotsByName(frameMapPlayer)
+        self.retranslateUi(frameMapAI)
+        QtCore.QMetaObject.connectSlotsByName(frameMapAI)
 
-    def retranslateUi(self, frameMapPlayer):
+    def on_button_choose_level(self, value):
+        self.value = value
+
+    def retranslateUi(self, frameMapAI):
         _translate = QtCore.QCoreApplication.translate
-        frameMapPlayer.setWindowTitle(_translate("frameMapPlayer", "MainWindow"))
-        self.label_2.setText(_translate("frameMapPlayer", "SELECT MAP"))
-        self.startBtn.setText(_translate("frameMapPlayer", "Start"))
+        frameMapAI.setWindowTitle(_translate("frameMapAI", "MainWindow"))
+        self.label_2.setText(_translate("frameMapAI", "SELECT MAP"))
+        self.easyMode.setText(_translate("frameMapAI", "Easy"))
+        self.hardMode.setText(_translate("frameMapAI", "Hard"))
+        self.startBtn.setText(_translate("frameMapAI", "Start"))
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    frameMapPlayer = QtWidgets.QMainWindow()
-    ui = Ui_frameMapPlayer()
-    ui.setupUi(frameMapPlayer)
-    frameMapPlayer.show()
+    frameMapAI = QtWidgets.QMainWindow()
+    ui = Ui_frameMapAI()
+    ui.setupUi(frameMapAI)
+    frameMapAI.show()
     sys.exit(app.exec_())

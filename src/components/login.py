@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import res_rc
+import src.components.res_rc as res_rc
 from game_server.database import DB
 
 db = DB()

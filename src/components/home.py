@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import res_rc
-from play_ai import Ui_frameMapAI
-from play_player import Ui_frameMapPlayer
+from src.components.play_ai import Ui_frameMapAI
+from src.components.play_player import Ui_frameMapPlayer
 
 class Ui_frame(object):
     def openWindow_AI(self):
