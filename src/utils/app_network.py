@@ -1,5 +1,6 @@
 import socket
 
+
 class Net():
     SERVER_IP = "127.0.0.1"
     SERVER_PORT = 12345
@@ -22,4 +23,4 @@ class Net():
     def receive_from_server(self):
         if self.client_socket:
             response = self.client_socket.recv(2048).decode()
-            return response.split(":", 1)
+            return response.split(":", 1)[1]

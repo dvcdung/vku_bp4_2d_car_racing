@@ -2,8 +2,8 @@
 SCREEN_SIZE = (1200, 700)
 
 # game constants
-GAME_SPEED = 15
-ANGLE_UNIT = 3
+GAME_SPEED = 7
+ANGLE_UNIT = 2
 CAR_SIZE = (60, 120)
 
 
